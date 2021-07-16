@@ -1,22 +1,53 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button} from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList} from 'react-native';
+import { FriendsContext } from '../contexts/FriendsContext';
 
-class App extends React.Component {
+class FriendsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <Text>Add friends here</Text>
-        
-        <Button
+{/*         
+        {
+          this.context.possibleFriends.map((friend:any, index:any) => (
+          <Button
+                    title={`add ${friend}`}
+                    key={friend}
+                    onPress={() =>
+                  this.context.addFriend(index)
+                 }
+             />
+          ))
+        } */}
+            <FlatList
+              data={this.context.possibleFriends}
+              keyExtractor={(item) => item}
+              renderItem = {({item, index}) => (
+                <>
+                <Text>{item}</Text>
+                <Button
+                title="Add"
+                onPress={() =>
+              this.context.addFriend(index)
+            }
+            />
+            </>
+          )}
+         />
+
+         <Button
           title="Back to home"
           onPress={() =>
             this.props.navigation.navigate('Home')
           }
         />
+        
       </View>
     );
   }
 }
+
+FriendsScreen.contextType = FriendsContext; 
 
 const styles = StyleSheet.create({
   container: {
@@ -27,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default FriendsScreen;
